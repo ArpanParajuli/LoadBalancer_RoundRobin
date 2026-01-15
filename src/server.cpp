@@ -99,7 +99,7 @@ class RoundRobin{
 
 int ConnectBackend(Server * backend)
 {
-    int sock;
+    int sock = -1;
     struct addrinfo hints , *res , *temp;
 
            memset(&hints, 0, sizeof(hints));
@@ -120,10 +120,10 @@ int ConnectBackend(Server * backend)
 
     for(temp = res; temp != NULL; temp = temp->ai_next)
     {
-         int sock = socket(res->ai_family , temp->ai_socktype , temp->ai_protocol);
+         sock = socket(temp->ai_family , temp->ai_socktype , temp->ai_protocol);
          if(sock < 0) continue;
 
-           if (connect(sock, temp->ai_addr, temp->ai_addrlen) != -1)
+           if (connect(sock, temp->ai_addr, temp->ai_addrlen) == 0)
                    break;                  /* Success */
 
 
@@ -173,8 +173,8 @@ int main()
 {
     RoundRobin rr;
     rr.InsertServer(5215 , "127.0.0.1"); // http://localhost:5215
-    rr.InsertServer(5215 , "127.0.0.1"); // http://localhost:5215
-    rr.InsertServer(5215 , "127.0.0.1"); // http://localhost:5215
+    rr.InsertServer(8008 , "127.0.0.1"); // http://localhost:5215
+    rr.InsertServer(3000 , "127.0.0.1"); // http://localhost:5215
 
     rr.display();
        
