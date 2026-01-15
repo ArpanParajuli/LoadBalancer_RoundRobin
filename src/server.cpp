@@ -99,7 +99,7 @@ class RoundRobin{
 
 int ConnectBackend(Server * backend)
 {
-    int sock = -1;
+    int sock = -1; // set to -1 at init
     struct addrinfo hints , *res , *temp;
 
            memset(&hints, 0, sizeof(hints));
@@ -123,7 +123,7 @@ int ConnectBackend(Server * backend)
          sock = socket(temp->ai_family , temp->ai_socktype , temp->ai_protocol);
          if(sock < 0) continue;
 
-           if (connect(sock, temp->ai_addr, temp->ai_addrlen) == 0)
+           if (connect(sock, temp->ai_addr, temp->ai_addrlen) == 0) // fixxed 
                    break;                  /* Success */
 
 
